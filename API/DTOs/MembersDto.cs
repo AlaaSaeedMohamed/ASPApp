@@ -1,19 +1,17 @@
-using System.ComponentModel.DataAnnotations;
-using API.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace API.Entities
+namespace API.DTOs
 {
-
-    public class AppUser
+    public class MembersDto
     {
-        [Key]
         public int Id { get; set; }
 
         public string UserName { get; set; }
 
-        public byte[] PasswordHash { get; set; }
-
-        public byte[] PasswordSalt { get; set; }
+        public string PhotoUrl { get; set; }
 
         public string KnownAs { get; set; }
 
@@ -33,9 +31,6 @@ namespace API.Entities
 
         public string Country { get; set; }
 
-        public List<Photo> Photos { get; set; } = new List<Photo>();
-
-
-
+        public List<PhotoDto> Photos { get; set; } = new List<PhotoDto>();
     }
 }
