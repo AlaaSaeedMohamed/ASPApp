@@ -12,7 +12,7 @@ namespace API.Controllers
 
     
     // inheritance
-    [Authorize]
+   
     public class UsersController : BaseApiController
     {
         // dependency injection
@@ -24,7 +24,7 @@ namespace API.Controllers
             _mapper = mapper;
             _userRepository = userRepository;
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MembersDto>>> GetUsers()
         {
@@ -34,7 +34,7 @@ namespace API.Controllers
             return Ok(UserToReturn);
         }
 
-
+        [Authorize]
         [HttpGet("{username}")]
         public async Task<ActionResult<MembersDto>> GetUserbyUsername(string username)
         {

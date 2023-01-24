@@ -17,9 +17,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TestErrorComponent } from './errors/test-error/test-error.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ToastrModule } from 'ngx-toastr';
+import { TabsModule } from 'ngx-bootstrap/tabs'
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { MemberCardComponent } from './members/member-card/member-card.component';
+import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
 
 
 
@@ -35,13 +39,16 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
     MemberDetailComponent,
     TestErrorComponent,
     NotFoundComponent,
-    ServerErrorComponent
+    ServerErrorComponent,
+    MemberCardComponent,
+    MemberEditComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    TabsModule.forRoot(),
     BrowserAnimationsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
@@ -52,7 +59,9 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
 
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+
   ],
   bootstrap: [AppComponent]
 })
