@@ -18,7 +18,7 @@ namespace API.Data
         }
 
 
-        public async Task<MembersDto> GetMembersAsync(string username)
+        public async Task<MembersDto> GetMemberAsync(string username)
         {
             return await _context.Users
                 .Where(x => x.UserName == username)
@@ -26,9 +26,11 @@ namespace API.Data
                 .SingleOrDefaultAsync();
         }
 
-        public Task<IEnumerable<MembersDto>> GetMembersAsync()
+        public async Task<IEnumerable<MembersDto>> GetMembersAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Users
+                .ProjectTo<MembersDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();        
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)

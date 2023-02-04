@@ -13,12 +13,13 @@ import { AuthGuard } from './_gaurds/auth.guard';
 import { PreventUnsavedChangesGuard } from './_gaurds/prevent-unsaved-changes.guard';
 
 const routes: Routes = [
+  {path: 'members', component: MemberListComponent},
   {path: '', component: HomeComponent},
+
   {path: '', 
     runGuardsAndResolvers:'always',
     canActivate:[AuthGuard],
     children: [
-      {path: 'members', component: MemberListComponent},
       {path: 'members/:username', component: MemberDetailComponent},
       {path: 'member/edit', component: MemberEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
       {path: 'lists', component: ListsComponent},

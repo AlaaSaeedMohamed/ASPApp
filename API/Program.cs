@@ -6,10 +6,17 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 //add services to the container.
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(10);
+});
 
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
+
 
 var app = builder.Build();
 
@@ -18,7 +25,9 @@ app.UseMiddleware<ExceptionMiddleware>();
 // Configure the HTTP request pipeline
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
+app.UseSession();
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();

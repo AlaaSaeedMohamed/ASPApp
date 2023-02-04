@@ -50,6 +50,9 @@ namespace API
 
             app.UseAuthorization();
 
+            app.UseSession();
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
