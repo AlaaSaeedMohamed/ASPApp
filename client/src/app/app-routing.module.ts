@@ -9,6 +9,7 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { MessagesComponent } from './messages/messages.component';
+import { SearchComponent } from './search/search.component';
 import { AuthGuard } from './_gaurds/auth.guard';
 import { PreventUnsavedChangesGuard } from './_gaurds/prevent-unsaved-changes.guard';
 
@@ -26,6 +27,7 @@ const routes: Routes = [
       {path: 'messages', component: MessagesComponent}
     ]
   },
+  {path: 'search/:SearchString', component: SearchComponent},
   {path: 'errors', component: TestErrorComponent},
   {path: 'not-found', component: NotFoundComponent},
   {path: 'server-error', component: ServerErrorComponent},
