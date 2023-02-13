@@ -1,6 +1,7 @@
 
 
 using API.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -14,6 +15,7 @@ namespace API.Data
 
         public DbSet<AppUser> Users { get; set; }
         public DbSet<Likes> Likes { get; set; }
+        public DbSet<Books> Books { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder) 
         {

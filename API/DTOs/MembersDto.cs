@@ -31,6 +31,9 @@ namespace API.DTOs
 
         public string Country { get; set; }
 
+        public string Role { get; set; }
+
+
         public List<PhotoDto> Photos { get; set; } = new List<PhotoDto>();
     }
 }

@@ -58,7 +58,7 @@ namespace API.Controllers
         [HttpPost("login")]  //POST: api/account/login
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
+            var user = await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(x => x.UserName == loginDto.Username);
 
             if( user == null)
             {
@@ -77,14 +77,23 @@ namespace API.Controllers
                 }
             }
 
+
             HttpContext.Session.SetInt32("ID",user.Id);
 
+            //var role = await _context.Users.FirstAsync(x => x.Role == loginDto.Role);
+
+            if(loginDto.Role != user.Role)
+            {
+                return Unauthorized("invalid");
+            }
 
             return new UserDto
             {
                 Username = user.UserName,
                 Token = _tokenService.CreateToken(user),
-                KnownAs = user.KnownAs
+                KnownAs = user.KnownAs,
+                Role = user.Role,
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.URL
 
             };
         }

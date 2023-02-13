@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { BehaviorSubject, of } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
@@ -10,21 +11,25 @@ import { User } from '../_models/user';
 })
 export class AccountService {
 
-  baseUrl = environment.apiUrl
+  baseUrl = environment.apiUrl;
+  public Admin = false;
+  public User = false;
   private currentUserSource = new BehaviorSubject<User | null>(null);  // to give the observable an initial value of null, we but the obs to null because we dont know if we have the info in local storage or not until we check(until we know for sure we have a user), ((User | null)) is because blue null is giving an error
   currentUser$ = this.currentUserSource.asObservable(); // $ sign to indicate its an observable 
-  constructor(private http: HttpClient ) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   login(model: any)
   {
+    
       // Async pipe Automatically subscribes/unsubscribes from the Observable
-
+    
     return this.http.post<User>(this.baseUrl + 'account/login' , model).pipe(
       map((response: User) => {
         const user = response;
         if(user) {
-          localStorage.setItem('user', JSON.stringify(user))
-          this.currentUserSource.next(user);
+          
+
+          this.setCurrentUser(user);
           
         }
       })
@@ -37,8 +42,8 @@ export class AccountService {
     return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
       map(user => {
         if(user){
-          localStorage.setItem('user', JSON.stringify(user))
-          this.currentUserSource.next(user);
+
+          this.setCurrentUser(user);
         }
         return user;
       })
@@ -46,11 +51,19 @@ export class AccountService {
   }
 
   setCurrentUser(user: User) {
+    localStorage.setItem('user', JSON.stringify(user));
+    sessionStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
+  }
+
+  setUserRole()
+  {
+
   }
 
   logout() {
     localStorage.removeItem('user');
+    sessionStorage.removeItem('user');
     this.currentUserSource.next(null);
   }
 }
