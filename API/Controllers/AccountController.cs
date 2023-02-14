@@ -36,9 +36,6 @@ namespace API.Controllers
 
             var user = _mapper.Map<AppUser>(registerDto);
 
-            HttpContext.Session.SetInt32("ID",user.Id);
-
-
             using var hmac = new HMACSHA512();  // using keyword to despose it ourselves not by the garbage collector
             
             user.UserName = registerDto.Username.ToLower();
@@ -51,7 +48,12 @@ namespace API.Controllers
             {
                 Username = user.UserName,
                 Token = _tokenService.CreateToken(user),
-                KnownAs = user.KnownAs
+                KnownAs = user.KnownAs, 
+                Gender = user.Gender,
+                Role = user.Role,
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.URL
+
+
             };
         }
 
@@ -93,6 +95,8 @@ namespace API.Controllers
                 Token = _tokenService.CreateToken(user),
                 KnownAs = user.KnownAs,
                 Role = user.Role,
+                Gender = user.Gender,
+
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.URL
 
             };

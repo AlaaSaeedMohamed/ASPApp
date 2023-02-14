@@ -17,15 +17,15 @@ namespace API.Data
             _context = context;
 
         }
-        public async Task<Likes> GetLikes(int sourceUserId, int targetUserId)
+        public async Task<Likes> GetUserLike(int sourceUserId, int targetUserId)
         {
-            return await _context.Likes.FindAsync(sourceUserId, targetUserId);
+            return await _context.Likess.FindAsync(sourceUserId, targetUserId);
         }
 
         public async Task<IEnumerable<LikeDto>> GetUserLikes(string predicate, int userId)
         {
             var users = _context.Users.OrderBy(u => u.UserName).AsQueryable();
-            var likes = _context.Likes.AsQueryable();
+            var likes = _context.Likess.AsQueryable();
 
             if(predicate == "liked")
             {
@@ -50,7 +50,7 @@ namespace API.Data
 
         }
 
-        public async Task<AppUser> GetUserWithLike(int userId)
+        public async Task<AppUser> GetUserWithLikes(int userId)
         {
             return await _context.Users.
             Include(x => x.LikedUsers).

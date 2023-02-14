@@ -16,6 +16,8 @@ namespace API.Data
         public UserRepository(DataContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
+
         }
 
 

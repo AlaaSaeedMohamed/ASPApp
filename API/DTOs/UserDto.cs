@@ -11,5 +11,7 @@ namespace API.DTOs
         public string Role { get; set; }
 
         public string PhotoUrl { get; set; }
+        public string Gender { get; set; }
+
     }
 }

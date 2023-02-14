@@ -13,12 +13,25 @@
         </label>
     </div>
 
+    <div class="mb-3">
+        <label style="margin-right: 10px"> Role: </label>
+        <label class="form-check-label">
+            <input type="radio" class="form-check-input" value="User" formControlName="role">User
+        </label>
+        <label class="form-check-label">
+            <input type="radio" class="form-check-input ms-3" value="BookStoreOwner" formControlName="role">Female
+        </label>
+    </div>
+
+
     <app-text-input [formControl]="$any(registerForm.controls['username'])" [label]="'Username'"></app-text-input>    
-    <app-text-input [formControl]="$any(registerForm.controls['knownAs'])" [label]="'Known As'"></app-text-input>    
+    <app-text-input [formControl]="$any(registerForm.controls['knownAs'])" [label]="'Known As'"></app-text-input>
+    <app-date-picker [formControl]="$any(registerForm.controls['dateOfBirth'])" [label]="'DOB'" [maxDate]="maxDate"></app-date-picker>  
     <app-text-input [formControl]="$any(registerForm.controls['city'])" [label]="'City'"></app-text-input>    
     <app-text-input [formControl]="$any(registerForm.controls['country'])" [label]="'Country'"></app-text-input>    
     <app-text-input [formControl]="$any(registerForm.controls['password'])" [label]="'Password'" [type]="'password'"></app-text-input>    
     <app-text-input [formControl]="$any(registerForm.controls['confirmPassword'])" [label]="'ConfirmPassword'" [type]="'password'"></app-text-input>  
+
     
     <div class="row" *ngIf="validationErrors">
         <ul class="text-danger">

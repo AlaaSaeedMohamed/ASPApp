@@ -12,8 +12,6 @@ import { User } from '../_models/user';
 export class AccountService {
 
   baseUrl = environment.apiUrl;
-  public Admin = false;
-  public User = false;
   private currentUserSource = new BehaviorSubject<User | null>(null);  // to give the observable an initial value of null, we but the obs to null because we dont know if we have the info in local storage or not until we check(until we know for sure we have a user), ((User | null)) is because blue null is giving an error
   currentUser$ = this.currentUserSource.asObservable(); // $ sign to indicate its an observable 
   constructor(private http: HttpClient, private router: Router) { }
