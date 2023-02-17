@@ -2,6 +2,7 @@ namespace API.Entities
 {
     public class Likes
     {
+        
         public AppUser SourceUser { get; set; }
 
         public int SourceUserId { get; set; }

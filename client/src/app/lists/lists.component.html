@@ -24,6 +24,7 @@
     <button class="btn btn-primary" 
     btnRadio="likedBy" 
     [(ngModel)]="predicate" 
+    [class.active]="" 
     (click)="loadLikes()">Members who like me</button>
 
     <div class="row mt-3" *ngIf="predicate == 'likedBy'">
