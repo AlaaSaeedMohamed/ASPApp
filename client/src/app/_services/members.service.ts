@@ -1,11 +1,13 @@
 import { JsonPipe } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, of } from 'rxjs';
+import { map, of, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Member } from '../_models/member';
 import { PaginatedResult } from '../_models/Pagination';
+import { User } from '../_models/user';
 import { userParams } from '../_models/userParams';
+import { AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +16,40 @@ export class MembersService {
 
   baseUrl = environment.apiUrl
   members: Member[] = [];
+  memberCache = new Map(); // to set and get key values // to save the keys and not have to make a req to api every time
+  userParams: userParams | undefined;
+  user: User | undefined;
+  
+  constructor(private http: HttpClient, private accountService: AccountService) {
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: user => {
+        if (user) {
+          this.userParams = new userParams(user);
+          this.user = user;
+        }
+      }
+    })
+   }
 
-  constructor(private http: HttpClient) { }
+   getUserParams() {
+    return this.userParams;
+   }
+
+   setUserParams(params: userParams) {
+    this.userParams = params;
+   }
+
+   resetUserParams(){
+    if (this.user) {
+      this.userParams = new userParams(this.user);
+      return this.userParams
+    }
+    return;
+   }
 
   getMembers(userParams : userParams) {
-
+    const response =this.memberCache.get(Object.values(userParams).join('-'));
+    if (response) return of(response);
     let params = this.getPaginatioonHeaders(userParams.pageNumber, userParams.pageSize);
     params = params.append('minAge', userParams.minAge);
     params = params.append('maxAge', userParams.maxAge);
@@ -28,7 +59,12 @@ export class MembersService {
 
 
     //if (this.members.length > 0 ) return of(this.members) // of() to return an observable of this.members
-    return this.getPaginatedResult<Member[]>(this.baseUrl + 'users', params); //,this.getHttpOptions()  // was used before using the jwt interceptor
+    return this.getPaginatedResult<Member[]>(this.baseUrl + 'users', params).pipe(
+      map(response =>{
+        this.memberCache.set(Object.values(userParams).join('-'), response);
+        return response;
+      })
+    ); //,this.getHttpOptions()  // was used before using the jwt interceptor
   }
 
   
@@ -59,8 +95,14 @@ export class MembersService {
 
 
   getMember(username: string) {
-    const member = this.members.find( x => x.userName === username);
+    //const member = this.members.find( x => x.userName === username);
+    //if(member) return of(member);
+    const member = [...this.memberCache.values()]
+    .reduce((arr, elements) => arr.concat(elements.result), [])
+    .find((member: Member) => member.userName === username);
+
     if(member) return of(member);
+
     return this.http.get<Member>(this.baseUrl + 'users/' + username); //, this.getHttpOptions()   // was used before using the jwt interceptor
   }
 

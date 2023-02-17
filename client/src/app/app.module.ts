@@ -78,7 +78,7 @@ import { TimeagoModule } from 'ngx-timeago';
     BsDatepickerModule.forRoot(),
     PaginationModule.forRoot(),
     ButtonsModule.forRoot(),
-
+    TimeagoModule.forRoot()
   ],
 
   providers: [
