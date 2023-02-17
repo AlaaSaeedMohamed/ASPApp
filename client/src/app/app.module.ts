@@ -31,6 +31,11 @@ import { SearchComponent } from './search/search.component';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { DatePickerComponent } from './_forms/date-picker/date-picker.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { TimeagoModule } from 'ngx-timeago';
+
+
 
 
 
@@ -71,8 +76,11 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     }),
     NgxGalleryModule,
     BsDatepickerModule.forRoot(),
+    PaginationModule.forRoot(),
+    ButtonsModule.forRoot(),
 
   ],
+
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

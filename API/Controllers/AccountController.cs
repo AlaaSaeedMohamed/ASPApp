@@ -51,7 +51,6 @@ namespace API.Controllers
                 KnownAs = user.KnownAs, 
                 Gender = user.Gender,
                 Role = user.Role,
-                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.URL
 
 
             };
