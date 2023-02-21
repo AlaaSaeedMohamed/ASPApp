@@ -46,7 +46,6 @@ namespace API.Data
                 KnownAs = user.KnownAs,
                 City = user.City,
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain).URL,
-                Id = user.Id
             });
 
             return await PagedList<LikeDto>.CreateAsync(likedUsers, likesParams.PageNumber, likesParams.PageSize);

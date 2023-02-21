@@ -9,7 +9,7 @@
           <ng-container *ngIf="(accountService.currentUser$ | async) as user">
             <li class="nav-item">
 
-              <a class="nav-link " routerLink="/members" routerLinkActive="active">Matches</a>
+              <a class="nav-link " routerLink="/members" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Matches</a>
   
             </li>
             <li class="nav-item">
@@ -34,9 +34,16 @@
               <a class="nav-link " routerLink="/errors" routerLinkActive="active">Friends</a>
   
             </li>
+
             <li class="nav-item">
   
                 <app-search></app-search>
+            </li>
+
+            <li class="nav-item" *appHasRole="['Admin', 'Moderator']">
+              
+              <a class="nav-link " routerLink="/admin" routerLinkActive="active">Admin</a>
+  
             </li>
 
           </ng-container>
