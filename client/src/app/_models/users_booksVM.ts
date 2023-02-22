@@ -3,6 +3,7 @@ import { User } from "./user";
 
 export interface searchVM {
 
-    books: Book;
+    boooks: Book;
     users: User;
+    
 }

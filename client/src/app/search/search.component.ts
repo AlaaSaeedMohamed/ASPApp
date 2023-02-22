@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { searchVM } from '../_models/users_booksVM';
 import { SearchService } from '../_services/search.service';
 
@@ -11,7 +11,7 @@ import { SearchService } from '../_services/search.service';
 })
 export class SearchComponent implements OnInit {
 
-  result : searchVM[] | undefined
+  results : searchVM[] =[]
 
   constructor(public searchService: SearchService, private route: ActivatedRoute){}
 
@@ -20,8 +20,15 @@ export class SearchComponent implements OnInit {
   }
 
   loadResults() {
-    const search = this.route.snapshot.paramMap.get('search');
-    if(!search) return;
-    this.searchService.getSearch(search);
+    const SearchString = this.route.snapshot.paramMap.get('SearchString');
+    if(!SearchString) return;
+    this.searchService.getSearch(SearchString).subscribe({
+      
+      next: result => {
+        this.results = result;
+        localStorage.setItem('results', JSON.stringify(this.results));
+
+      }
+    });
   }
 }

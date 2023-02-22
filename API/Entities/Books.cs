@@ -9,5 +9,6 @@ namespace API.Entities
 
         public string Title { get; set; }
 
+
     }
 }

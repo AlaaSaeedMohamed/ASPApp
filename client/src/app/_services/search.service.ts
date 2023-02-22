@@ -16,15 +16,16 @@ export class SearchService {
 
 
 
-  getSearch(result: string) {
-    const book = this.vm.find( x => x.books.title === result);
-    const user = this.vm.find( x => x.users.username === result);
+  getSearch(SearchString: string) {
+    //this.vm.find( x => x.boooks.title === SearchString);
+    //this.vm.find( x => x.users.username === SearchString);
+    if(this.vm.length > 0){
+      return of(this.vm);
+    }
 
-    if(book) return of(book);
-    if(user) return of(user);
+    //if(this.vm) return of(this.vm);
 
-
-    return this.http.get<searchVM[]>(this.baseUrl + 'search/' + result).pipe(
+    return this.http.get<searchVM[]>(this.baseUrl + 'search/' + SearchString).pipe(
       map(results => {
         this.vm = results;
         return results;
