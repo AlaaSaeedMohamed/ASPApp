@@ -2,6 +2,7 @@ using API.Data;
 using API.Entities;
 using API.Extensions;
 using API.Middleware;
+using API.SignalR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +26,7 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://localhost:4200"));
 
 app.UseSession();
 app.UseAuthentication();
@@ -33,6 +34,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<PressenceHub>("hubs/presence");
 
 using var scope = app.Services.CreateScope();  // gives us access to all the services that we have inside the program class
 var services = scope.ServiceProvider;
