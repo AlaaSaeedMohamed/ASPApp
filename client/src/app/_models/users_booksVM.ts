@@ -1,9 +1,10 @@
 import { Book } from "./book";
+import { Member } from "./member";
 import { User } from "./user";
 
 export interface searchVM {
 
-    boooks: Book;
-    users: User;
+    bBooks: Book[];
+    uUsers: Member[];
     
 }

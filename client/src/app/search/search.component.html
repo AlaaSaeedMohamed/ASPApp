@@ -1,4 +1,37 @@
-<div *ngFor="let result of results">
-    <p>{{result.users.username}}</p>
-    <p>{{result.boooks.title}}</p>
+
+<div class="row">
+    <div class="col-2" *ngFor="let search of results?.uUsers">
+        <div class="card mb-4" *ngIf="search">
+            <div class="card-img-wrapper">
+                <img src="{{search.photoUrl || './assets/user.png'}}" alt="{{search.knownAs}}" class="card-img-top">
+                <ul class="list-inline member-icons animate text-center">
+        
+                    <li class="list-inline-item">
+                        <button routerLink="/members/{{search.userName}}" class="btn btn-primary"><i class="fa fa-user"></i></button>
+                    </li>
+        
+                    <li class="list-inline-item">
+                        <button class="btn btn-primary"><i class="fa fa-envelope"></i></button>
+                    </li>
+        
+                </ul>
+            </div>
+            <div class="card-body p-1">
+                <h6 class="card-title text-center mb-1">
+                    <span [class.is-online]="(presenceService.onlineUsers$ | async)?.includes(search.userName)">
+                        <i class="fa fa-user me-2"></i>
+                    </span>            
+                    {{search.knownAs}}, {{search.age}}
+                </h6>
+                <p class="card-text text-muted text-center">{{search.city}}</p>
+            </div>
+        </div>
+        
+    </div>
 </div>
+<div class="row">
+    <div class="col-2" *ngFor="let search of results?.bBooks">
+        <p>{{search.title}}</p>
+    </div>
+</div>
+

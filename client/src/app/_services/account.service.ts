@@ -5,6 +5,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
+import { PresenseService } from './presense.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class AccountService {
   baseUrl = environment.apiUrl;
   private currentUserSource = new BehaviorSubject<User | null>(null);  // to give the observable an initial value of null, we but the obs to null because we dont know if we have the info in local storage or not until we check(until we know for sure we have a user), ((User | null)) is because blue null is giving an error
   currentUser$ = this.currentUserSource.asObservable(); // $ sign to indicate its an observable 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private presenceService: PresenseService) { }
 
   login(model: any)
   {
@@ -55,16 +56,15 @@ export class AccountService {
     Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
+    this.presenceService.createHubConnection(user);
   }
 
-  setUserRole()
-  {
-
-  }
 
   logout() {
     localStorage.removeItem('user');
+    localStorage.removeItem('results');
     this.currentUserSource.next(null);
+    this.presenceService.stopHubConnection();
   }
 
   getDecodedToken(token: string)

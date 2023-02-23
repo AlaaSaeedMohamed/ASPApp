@@ -4,6 +4,7 @@ import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov
 import { throttleTime } from 'rxjs';
 import { Member } from 'src/app/_models/member';
 import { MembersService } from 'src/app/_services/members.service';
+import { PresenseService } from 'src/app/_services/presense.service';
 
 @Component({
   selector: 'app-member-detail',
@@ -15,7 +16,7 @@ export class MemberDetailComponent implements OnInit {
   member: Member | undefined;  
   galleryOptions: NgxGalleryOptions[] = [];
   galleryImages: NgxGalleryImage[] = [];
-  constructor(private memberService: MembersService, private route: ActivatedRoute) { }
+  constructor(private memberService: MembersService, private route: ActivatedRoute, public presenceService: PresenseService) { }
 
   ngOnInit(): void {
     this.loadMember();
